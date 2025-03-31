@@ -24,7 +24,6 @@ jobs:
 
       # Step 4: Build
       - name: Build Docker Image
-        env:
         run: |
           export DOCKER_BUILDKIT=1
           IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/llm:latest
