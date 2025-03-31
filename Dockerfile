@@ -4,15 +4,15 @@ FROM python:3.9-slim
 # 安装必要的工具
 RUN apt-get update && apt-get install -y git git-lfs && rm -rf /var/lib/apt/lists/*
 
-# 初始化 git-lfs
-RUN git lfs install
-
 # 设置工作目录
 WORKDIR /app
 
 # 复制依赖文件并安装
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
+
+# 初始化 git-lfs
+RUN git lfs install
 
 # 使用 git-lfs 克隆模型
 ARG HUGGING_FACE_TOKEN

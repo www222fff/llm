@@ -22,19 +22,17 @@ jobs:
       - name: Log in to GitHub Container Registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-      # Step 4: Build Docker Image and Push
-      - name: Build Docker Image and Push
+      # Step 4: Build
+      - name: Build Docker Image
+        env:
+        # 确保 secrets.HUGGING_FACE_TOKEN 包含完整 hf_xxx 格式的 token
+        HF_TOKEN: ${{ secrets.HUGGING_FACE_TOKEN }}  
         run: |
-          export DOCKER_BUILDKIT=1
-          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/llm:latest
-          docker buildx build --cache-from=type=local,src=/tmp/.buildx-cache --cache-to=type=local,dest=/tmp/.buildx-cache -t $IMAGE_NAME --push .
-
-      - name: Build Docker Image and Push
-        run: |
+          echo "TOKEN_PREFIX: ${HF_TOKEN:0:5}..." 
           export DOCKER_BUILDKIT=1
           IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/llm:latest
           docker buildx build \
-            --build-arg HUGGING_FACE_TOKEN=${{ secrets.HUGGING_FACE_TOKEN }} \
+            --build-arg HUGGING_FACE_TOKEN=$HF_TOKEN \
             --cache-from=type=local,src=/tmp/.buildx-cache \
             --cache-to=type=local,dest=/tmp/.buildx-cache \
             -t $IMAGE_NAME \
