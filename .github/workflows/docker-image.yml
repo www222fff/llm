@@ -25,14 +25,10 @@ jobs:
       # Step 4: Build
       - name: Build Docker Image
         env:
-        # 确保 secrets.HUGGING_FACE_TOKEN 包含完整 hf_xxx 格式的 token
-        HF_TOKEN: ${{ secrets.HUGGING_FACE_TOKEN }}  
         run: |
-          echo "TOKEN_PREFIX: ${HF_TOKEN:0:5}..." 
           export DOCKER_BUILDKIT=1
           IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/llm:latest
           docker buildx build \
-            --build-arg HUGGING_FACE_TOKEN=$HF_TOKEN \
             --cache-from=type=local,src=/tmp/.buildx-cache \
             --cache-to=type=local,dest=/tmp/.buildx-cache \
             -t $IMAGE_NAME \

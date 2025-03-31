@@ -11,13 +11,6 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 初始化 git-lfs
-RUN git lfs install
-
-# 使用 git-lfs 克隆模型
-ARG HUGGING_FACE_TOKEN
-RUN git clone https://dannyhasball:${HUGGING_FACE_TOKEN}@huggingface.co/meta-llama/CodeLlama-13b-Instruct-hf /models
-
 # 复制 Python 脚本
 COPY dataset.json .
 COPY step2-train-cpu.py .
