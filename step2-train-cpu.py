@@ -52,7 +52,7 @@ eval_dataset = train_test_split["test"]
 
 # 配置训练参数
 training_args = TrainingArguments(
-    output_dir="./codellama-13b-finetuned",
+    output_dir="/models/codellama-13b-finetuned",
     num_train_epochs=3,
     per_device_train_batch_size=4,  # 减小以适应内存
     gradient_accumulation_steps=4,
