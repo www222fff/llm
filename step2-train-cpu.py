@@ -6,17 +6,14 @@ from datasets import load_dataset
 # 指定本地模型路径
 model_name = "/models/CodeLlama-13b-Instruct-hf"
 
-# 配置量化
-quantization_config = BitsAndBytesConfig(load_in_8bit=True)
-
 # 初始化 tokenizer
-tokenizer = AutoTokenizer.from_pretrained(model_name)
+tokenizer = AutoTokenizer.from_pretrained(model_name, local_files_only=True)
 tokenizer.pad_token = tokenizer.eos_token
 
 # 加载本地模型
 model = AutoModelForCausalLM.from_pretrained(
     model_name,
-    quantization_config=quantization_config,
+    local_files_only=True,
     device_map="cpu"
 )
 model.config.pad_token_id = tokenizer.eos_token_id
