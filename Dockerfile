@@ -9,8 +9,8 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # 使用 git-lfs 克隆模型
-RUN git lfs install
-git clone https://dannyhasball:${{ secrets.HUGGING_FACE_TOKEN }}@huggingface.co/meta-llama/CodeLlama-13b-Instruct-hf /models
+RUN git lfs install && \
+    git clone https://dannyhasball:${HUGGING_FACE_TOKEN}@huggingface.co/meta-llama/CodeLlama-13b-Instruct-hf /models
 
 # 复制 Python 脚本
 COPY dataset.json .
