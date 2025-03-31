@@ -20,4 +20,4 @@ COPY step2-train-gpu.py .
 ENV PYTHONUNBUFFERED=1
 
 # 运行 Python 脚本
-CMD ["python", "step2-train-cpu.py"]
+CMD ["sleep", "infinity"]
