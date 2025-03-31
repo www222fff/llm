@@ -1,6 +1,12 @@
 # 使用官方 Python 3.9 slim 镜像作为基础
 FROM python:3.9-slim
 
+# 安装必要的工具
+RUN apt-get update && apt-get install -y git git-lfs && rm -rf /var/lib/apt/lists/*
+
+# 初始化 git-lfs
+RUN git lfs install
+
 # 设置工作目录
 WORKDIR /app
 
@@ -9,8 +15,8 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # 使用 git-lfs 克隆模型
-RUN git lfs install && \
-    git clone https://dannyhasball:${HUGGING_FACE_TOKEN}@huggingface.co/meta-llama/CodeLlama-13b-Instruct-hf /models
+ARG HUGGING_FACE_TOKEN
+RUN git clone https://dannyhasball:${HUGGING_FACE_TOKEN}@huggingface.co/meta-llama/CodeLlama-13b-Instruct-hf /models
 
 # 复制 Python 脚本
 COPY dataset.json .
